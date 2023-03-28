@@ -7,9 +7,9 @@
 //Allows you the build in message type to publish data
 #include "std_msgs/msg/string.hpp"
 
-//#include "ros2_md/msg/motor_command.hpp"
+//#include "motor_interfaces/msg/motor_command.hpp"
 
-#include "ros2_md/srv/read_encoder.hpp"
+#include "motor_interfaces/srv/read_encoder.hpp"
 //serial related
 #include <termios.h>
 #include <unistd.h>
@@ -54,7 +54,7 @@ public:
             "write_command", 10, std::bind(&MotorCommunication::write_command_callback, this, std::placeholders::_1));
 
         // Service
-        service_ = this->create_service<ros2_md::srv::ReadEncoder>(
+        service_ = this->create_service<motor_interfaces::srv::ReadEncoder>(
             "read_encoder", std::bind(&MotorCommunication::handle_service, this, std::placeholders::_1, std::placeholders::_2));
 
         // Open the serial port
@@ -86,7 +86,7 @@ private:
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr write_command_;
     // Service
-    rclcpp::Service<ros2_md::srv::ReadEncoder>::SharedPtr service_;
+    rclcpp::Service<motor_interfaces::srv::ReadEncoder>::SharedPtr service_;
     int serial_port_;
     char* arg__;
 
@@ -99,10 +99,10 @@ private:
       // Handler function for service
     void handle_service(
         //const std::shared_ptr<rmw_request_id_t> request_header,
-        const std::shared_ptr<ros2_md::srv::ReadEncoder::Request> request,
-        std::shared_ptr<ros2_md::srv::ReadEncoder::Response> response)
+        const std::shared_ptr<motor_interfaces::srv::ReadEncoder::Request> request,
+        std::shared_ptr<motor_interfaces::srv::ReadEncoder::Response> response)
     {
-            response->encoder = request->command;
+            response->encoder_data = request->command;
             
     }
 };

@@ -35,30 +35,12 @@ add_executable(motor_comm src/motor_comm.cpp)
 
 
 # Link the executable with the ROS2 libraries
-ament_target_dependencies(motor_comm rclcpp std_msgs)
+ament_target_dependencies(motor_comm rclcpp std_msgs motor_interfaces)
 ament_target_dependencies(serial_node rclcpp std_msgs)
 ament_target_dependencies(cl_input rclcpp)
 
 # custom msg and srv related
 # find_package(<dependency> REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
-
-set(msg_files
-  "msg/MotorCommand.msg")
-set(srv_files
-  "srv/ReadEncoder.srv")
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}  
-  ${srv_files}
-)
-
-ament_export_dependencies(rosidl_default_runtime)
-
-rosidl_get_typesupport_target(cpp_typesupport_target
-  ${PROJECT_NAME} "rosidl_typesupport_cpp")
-
-target_link_libraries(motor_comm "${cpp_typesupport_target}")
 
 
 
@@ -72,11 +54,6 @@ install(TARGETS
 )
 
 
-
-install(
-  DIRECTORY msg
-  DESTINATION share/${PROJECT_NAME}
-)
 
 
 
