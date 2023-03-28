@@ -10,6 +10,15 @@ find_package(ament_cmake REQUIRED)
 # code dependencies
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(motor_interfaces REQUIRED)
+#msg and srv related
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
+
+# further executables manually.
+# add_executable(<node_name> src/<code_name>.cpp)
+
 
 
 # add executables

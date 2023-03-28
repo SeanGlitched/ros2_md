@@ -12,9 +12,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+<<<<<<< HEAD:src/serial_node.cpp
 //#include "ros2_md/msg/mbcommand.hpp"
 //#include "ros2_md/srv/encoder.hpp"
 
+=======
+#include "motor_interfaces/msg/motor_command.hpp"
+>>>>>>> 2a9b443 (dual package):src/serial.cpp
 #define DEBUG 0
 
 using namespace std::chrono_literals;
