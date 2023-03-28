@@ -7,13 +7,19 @@
 //Allows you the build in message type to publish data
 #include "std_msgs/msg/string.hpp"
 
+//serial related
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
 
+//#include "ros2_md/msg/mbcommand.hpp"
+//#include "ros2_md/srv/encoder.hpp"
+
 #define DEBUG 0
 
 using namespace std::chrono_literals;
+
+
 //inherit from the Node::cpp class
 class SerialCommunication : public rclcpp::Node
 {
@@ -28,7 +34,7 @@ public:
     subscriber_ = this->create_subscription<std_msgs::msg::String>(
       "serial_receive", 10, std::bind(&SerialCommunication::serial_receive_callback, this, std::placeholders::_1));
     
-    // Open the serial port
+       // Open the serial port
     serial_port_ = open("/dev/serial/by-path/pci-0000:00:14.0-usb-0:5:1.0-port0", O_RDWR | O_NOCTTY | O_NDELAY);
     if (serial_port_ == -1){
       std::cout << "Failed to open serial port" << std::endl;
@@ -53,10 +59,10 @@ public:
   }
 
 private:
-  int serial_port_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
-  rclcpp::TimerBase::SharedPtr timer_;
+  int serial_port_;
+  //rclcpp::TimerBase::SharedPtr timer_;
 
 
   void serial_send_loop(){
