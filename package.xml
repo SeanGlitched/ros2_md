@@ -27,7 +27,6 @@
     <depend>rclcpp</depend>
     <depend>std_msgs</depend>
 
-
   </export>
   
 </package>

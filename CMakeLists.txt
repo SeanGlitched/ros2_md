@@ -11,6 +11,9 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(motor_interfaces REQUIRED)
+find_package(rclcpp_serial REQUIRED)
+
+
 #msg and srv related
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -18,8 +21,8 @@ find_package(motor_interfaces REQUIRED)
 
 # further executables manually.
 # add_executable(<node_name> src/<code_name>.cpp)
-
-
+#add header files
+include_directories(include)
 
 # add executables
 add_executable(my_node src/my_node.cpp)
@@ -29,8 +32,10 @@ add_executable(serial_node src/serial_node.cpp)
 add_executable(cl_input src/cl_input.cpp)
 
 
-add_executable(motor_comm src/motor_comm.cpp)
+add_executable(motor_comm 
+src/motor_comm.cpp src/serial.cpp src/buffer.cpp)
 
+add_executable(ros2_serial_node)
 # add_executable(<node_name> src/<code_name>.cpp)
 
 
@@ -50,12 +55,13 @@ install(TARGETS
   serial_node
   cl_input
   motor_comm
+  ros2_serial_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-
-
-
-
+install ( 
+  DIRECTORY     include/
+  DESTINATION   include    
+)
 
 ament_package()
