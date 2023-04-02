@@ -6,11 +6,18 @@
 #include "std_msgs/msg/string.hpp"
 #include "serial/serial.h"
 
+
+
+#include <hardware_interface/base_interface.hpp>
+#include <hardware_interface/system_interface.hpp>
+
+
+
 class SerialNode : public rclcpp::Node
 {
 public:
-    SerialNode()
-        : Node("serial_node"), port_name_("/dev/ttyUSB0"), baud_rate_(115200)
+    SerialNode(char* arg__)
+        : Node("serial_node"), port_name_(arg__), baud_rate_(115200)
     {
         publisher_ = this->create_publisher<std_msgs::msg::String>("serial_data", 10);
         subscriber_ = this->create_subscription<std_msgs::msg::String>(
@@ -82,7 +89,13 @@ private:
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<SerialNode>());
+
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " <port>" << std::endl;
+        return 1;
+    }
+
+    rclcpp::spin(std::make_shared<SerialNode>(argv[1]));
     rclcpp::shutdown();
     return 0;
 }

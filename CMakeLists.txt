@@ -88,6 +88,10 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(motor_interfaces REQUIRED)
 
+find_package(hardware_interface REQUIRED)
+find_package(controller_manager REQUIRED)
+find_package(pluginlib REQUIRED)
+
 #find_package(serial REQUIRED)
 
 #serial library https://github.com/wjwwood/serial
@@ -105,28 +109,22 @@ find_package(motor_interfaces REQUIRED)
 #include_directories(include)
 
 # add executables
-add_executable(my_node src/my_node.cpp)
-add_executable(node2 src/node2.cpp)
-
-add_executable(serial_node src/serial_node.cpp)
-add_executable(cl_input src/cl_input.cpp)
 
 
 
-add_executable(ros_serial_node 
-src/ros_serial_node.cpp 
+
+add_executable(basic_serial_node
+src/basic_serial_node.cpp 
 ${serial_SRCS}
-#src/serial/serial.cc)
 ) 
+
 # add_executable(<node_name> src/<code_name>.cpp)
 
 
 # Link the executable with the ROS2 libraries
 #ament_target_dependencies(motor_comm rclcpp std_msgs motor_interfaces)
-ament_target_dependencies(serial_node rclcpp std_msgs)
-ament_target_dependencies(cl_input rclcpp)
 
-ament_target_dependencies(ros_serial_node rclcpp std_msgs )#serial)
+ament_target_dependencies(basic_serial_node rclcpp std_msgs )
 #add_executable(ros2_md src/ros2_md.cpp)
 
 #link_directories(${serial_LIBRARY_DIRS})
@@ -136,11 +134,7 @@ ament_target_dependencies(ros_serial_node rclcpp std_msgs )#serial)
 # find_package(<dependency> REQUIRED)
 
 install(TARGETS 
-my_node
-node2
-serial_node
-cl_input
-ros_serial_node
+basic_serial_node
 DESTINATION lib/${PROJECT_NAME}
 )
 
