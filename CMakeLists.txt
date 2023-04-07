@@ -89,8 +89,14 @@ find_package(std_msgs REQUIRED)
 find_package(motor_interfaces REQUIRED)
 
 find_package(hardware_interface REQUIRED)
-find_package(controller_manager REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(rclcpp_lifecycle REQUIRED)
+
+
+#find_package(controller_manager REQUIRED)
+#find_package(controller_interface REQUIRED)
+
+find_package(ros2_control REQUIRED)
 
 #find_package(serial REQUIRED)
 
@@ -112,12 +118,34 @@ find_package(pluginlib REQUIRED)
 
 
 
+add_library(ackermann_esp SHARED 
+src/ackermann_esp.cpp 
+src/motor.cpp 
+src/esp_comms.cpp)
+
+
+target_include_directories(
+  ackermann_esp
+  PRIVATE
+  include
+)
 
 add_executable(basic_serial_node
 src/basic_serial_node.cpp 
 ${serial_SRCS}
 ) 
 
+ament_target_dependencies(
+  ackermann_esp
+  hardware_interface
+  ros2_control
+  #controller_manager
+  rclcpp
+  pluginlib
+)
+
+
+pluginlib_export_plugin_description_file(hardware_interface ackermann_esp.xml)
 # add_executable(<node_name> src/<code_name>.cpp)
 
 
@@ -142,6 +170,15 @@ DESTINATION lib/${PROJECT_NAME}
 #  DIRECTORY     include/
 #  DESTINATION   include    
 #  )
-  
+ament_export_libraries(
+  ackermann_esp  
+)
+ament_export_dependencies(
+  hardware_interface
+  #controller_manager
+  rclcpp
+  pluginlib
+)
+
   ament_package()
   

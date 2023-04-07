@@ -18,12 +18,29 @@
 
   <depend>motor_interfaces</depend>
   
+  <depend>hardware_interface</depend> 
+  <depend>pluginlib</depend> 
+  <depend>rclcpp_lifecycle</depend>
+  
+
+
+
+
+  <depend>ros2_control</depend>
+<!--
+
+  <depend>controller_interface</depend> 
+  <depend>controller_manager</depend> 
+  -->
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
   
   <export>
     <build_type>ament_cmake</build_type>
+
+    <depend>rclcpp</depend>
+    
 
     <depend>std_msgs</depend>
 
