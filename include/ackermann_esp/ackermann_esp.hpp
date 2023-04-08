@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ACKERMAN_ESP_HPP
+#define ACKERMAN_ESP_HPP
+
 
 
 
@@ -13,21 +15,38 @@
 //from the docs
 
 //#include "hardware_interface/actuator_interface.hpp"
+// #include "hardware_interface/system_interface.hpp"
+// #include "hardware_interface/types/hardware_interface_return_values.hpp"
+
+#include "hardware_interface/handle.hpp"
+#include "hardware_interface/hardware_info.hpp"
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
+#include "rclcpp/macros.hpp"
+#include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
+#include "rclcpp_lifecycle/state.hpp"
+
 
 #include "config.hpp"
 #include "ackermann_esp/esp_comms.hpp"
 #include "ackermann_esp/motor.hpp"
 #include "ackermann_esp/servo.hpp"
 
+using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
+namespace ros2_md_h_i{
 
 class AckermannESP : public hardware_interface::SystemInterface
 {
 
 
 public:
+
+
+public:
+
+  RCLCPP_SHARED_PTR_DEFINITIONS(AckermannESP);
+
   AckermannESP();
 
   //SystemInterface
@@ -84,3 +103,8 @@ private:
 
   
 };
+
+}//ros2_md
+
+
+#endif

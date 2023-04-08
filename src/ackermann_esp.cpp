@@ -5,7 +5,11 @@
 
 
 
-using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+namespace ros2_md_h_i{
+
+
+
+//using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 using return_type = hardware_interface::return_type;
 
 AckermannESP::AckermannESP()
@@ -85,6 +89,14 @@ CallbackReturn AckermannESP::on_deactivate(const rclcpp_lifecycle::State & previ
   return CallbackReturn::SUCCESS;
 }
 
+CallbackReturn AckermannESP::on_error(const rclcpp_lifecycle::State & previous_state)
+{
+  RCLCPP_INFO(logger_, "Error Occurred...");
+
+  return CallbackReturn::SUCCESS;
+}
+
+
 //add IMU
 std::vector<hardware_interface::StateInterface> AckermannESP::export_state_interfaces()
 {
@@ -155,10 +167,11 @@ hardware_interface::return_type AckermannESP::write(const rclcpp::Time & time, c
 }
 
 
+}//namespace ros2_md
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-  AckermannESP,
+  ros2_md_h_i::AckermannESP,
   hardware_interface::SystemInterface
 )

@@ -1,6 +1,6 @@
-<library path="ackermann_esp">
+<library path="ros2_md">
   <class name="ackermann_esp/AckermannESP"
-         type="AckermannESP"
+         type="ros2_md_h_i::AckermannESP"
          base_class_type="hardware_interface::SystemInterface">
     <description>
       Hardware Interface for Ackerman ESP controller.

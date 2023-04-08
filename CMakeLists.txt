@@ -84,19 +84,17 @@ install (
 
 
 # code dependencies
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(motor_interfaces REQUIRED)
+# # find_package(std_msgs REQUIRED)
+# find_package(motor_interfaces REQUIRED)
 
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 
 
-#find_package(controller_manager REQUIRED)
-#find_package(controller_interface REQUIRED)
 
-find_package(ros2_control REQUIRED)
+# find_package(ros2_control REQUIRED)
 
 #find_package(serial REQUIRED)
 
@@ -118,66 +116,61 @@ find_package(ros2_control REQUIRED)
 
 
 
-add_library(ackermann_esp SHARED 
-src/ackermann_esp.cpp 
+add_library(${PROJECT_NAME} 
+SHARED 
 src/motor.cpp 
-src/esp_comms.cpp)
+src/servo.cpp
+src/esp_comms.cpp
+src/ackermann_esp.cpp 
+${serial_SRCS}
+)
 
 
 target_include_directories(
-  ackermann_esp
+  ${PROJECT_NAME} 
   PRIVATE
   include
 )
 
-add_executable(basic_serial_node
-src/basic_serial_node.cpp 
-${serial_SRCS}
-) 
 
 ament_target_dependencies(
-  ackermann_esp
+  ${PROJECT_NAME} 
   hardware_interface
-  ros2_control
-  #controller_manager
   rclcpp
   pluginlib
 )
 
 
 pluginlib_export_plugin_description_file(hardware_interface ackermann_esp.xml)
-# add_executable(<node_name> src/<code_name>.cpp)
 
 
-# Link the executable with the ROS2 libraries
-#ament_target_dependencies(motor_comm rclcpp std_msgs motor_interfaces)
-
-ament_target_dependencies(basic_serial_node rclcpp std_msgs )
-#add_executable(ros2_md src/ros2_md.cpp)
-
-#link_directories(${serial_LIBRARY_DIRS})
-
-#target_link_libraries(ros_serial_node ${serial_LIBRARIES})
-# custom msg and srv related
-# find_package(<dependency> REQUIRED)
-
-install(TARGETS 
-basic_serial_node
-DESTINATION lib/${PROJECT_NAME}
+#install
+install( 
+  TARGETS ${PROJECT_NAME} 
+  DESTINATION lib
 )
 
-#install ( 
-#  DIRECTORY     include/
-#  DESTINATION   include    
-#  )
+install ( 
+ DIRECTORY     include/
+ DESTINATION   include    
+ )
+
+
+
+
+## EXPORTS
+ament_export_include_directories(
+  include
+)
+
 ament_export_libraries(
-  ackermann_esp  
+  ${PROJECT_NAME}   
 )
 ament_export_dependencies(
   hardware_interface
-  #controller_manager
-  rclcpp
   pluginlib
+  rclcpp
+  rclcpp_lifecycle
 )
 
   ament_package()
